@@ -15,6 +15,34 @@ This project aims to detect rumors in social media posts using machine learning 
 ## Language Used
 Python
 
+### Dataset
+
+The dataset used for this project contains social media posts along with various attributes. Here's a basic overview of the data format:
+
+- **File Format:** CSV
+- **Columns:**
+  - **ID:** Unique identifier for each social media post.
+  - **Description:** Text content of the social media post.
+  - **#Tweets:** Number of tweets by the user.
+  - **Date_time_creation_account:** Date and time when the user's account was created.
+  - **Language:** Language of the post.
+  - **#Followers:** Number of followers of the user.
+  - **#Friends:** Number of friends or accounts the user is following.
+  - **Date&Time:** Date and time of the post.
+  - **#Favorite:** Number of favorites or likes for the post.
+  - **#Retweet:** Number of retweets for the post.
+  - **Another Tweet Inside:** Indicates if there's another tweet inside this one.
+  - **Source:** Source device or platform used to post the content.
+  - **Tweet ID:** Unique identifier for the tweet.
+  - **Retweet ID:** ID of the retweet, if applicable.
+  - **Quote ID:** ID of the quoted tweet, if applicable.
+  - **Reply ID:** ID of the reply tweet, if applicable.
+  - **Frequency of tweet occurrences:** Frequency of occurrences for the tweet.
+  - **State of Tweet:** Indicates the nature of the tweet (e.g., rumor, non-rumor).
+
+You can use this dataset to train and evaluate machine learning models for rumor detection in social media posts.
+
+
 ## Preprocessing
 ### Description
 The text data in the 'Description' column of the dataset is preprocessed before feeding it into the models. The preprocessing steps include:
