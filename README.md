@@ -27,6 +27,39 @@ The text data in the 'Description' column of the dataset is preprocessed before 
 ### Implementation
 The preprocessing is implemented using Python libraries such as NLTK and regular expressions. The preprocess_text function is applied to the 'Description' column of the DataFrame.
 
+```python
+import nltk
+import re
+
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+def preprocess_text(text):
+    # Convert text to lowercase
+    text = text.lower()
+    # Tokenize text
+    tokens = word_tokenize(text)
+    # Remove punctuation and special characters
+    tokens = [re.sub(r'[^a-zA-Z0-9]', '', token) for token in tokens if token.isalnum()]
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    tokens = [token for token in tokens if token not in stop_words]
+    # Lemmatize tokens
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(token) for token in tokens]
+    # Join tokens back into a single string
+    preprocessed_text = ' '.join(tokens)
+    return preprocessed_text
+
+# Apply preprocessing to the 'Description' column
+df['Description'] = df['Description'].apply(preprocess_text)
+```
+
 ## Vectorization
 ### Description
 Text data is converted into numerical form using vectorization techniques. Three main vectorization methods are used:
@@ -67,6 +100,22 @@ Hyperparameter tuning is performed to optimize the performance of the SVM model.
 - GridSearchCV is used to search for the best combination of hyperparameters for the SVM model.
 - The best-performing SVM model is selected based on cross-validated accuracy.
 
+```python
+from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVC
+
+# Define hyperparameters grid for SVM
+svm_param_grid = {'C': [0.1, 1, 10, 100], 'gamma': [0.1, 0.01, 0.001], 'kernel': ['rbf', 'linear', 'poly', 'sigmoid']}
+
+# Initialize GridSearchCV for SVM
+svm_grid_search = GridSearchCV(SVC(), svm_param_grid, cv=5)
+svm_grid_search.fit(X_train, y_train)
+best_svm_classifier = svm_grid_search.best_estimator_
+best_svm_accuracy = svm_grid_search.best_score_
+
+print("Best SVM Accuracy after Hyperparameter Tuning:", best_svm_accuracy)
+```
+
 ## Visualization
 ### Description
 The accuracy and F1-score of each model are visualized for comparison.
@@ -83,6 +132,24 @@ The performance of each model is compared based on accuracy and F1-score metrics
 - Naive Bayes Accuracy: 0.6179
 - Random Forest Accuracy: 0.6341
 - Gradient Boosting Accuracy: 0.5906
+
+### Visualization
+
+To visualize the accuracy of different classification models using TF-IDF vectorization, you can use the following code snippet:
+
+```python
+import matplotlib.pyplot as plt
+
+# Plot model accuracies for TFIDF
+models = ['SVM', 'Naive Bayes', 'Random Forest', 'Gradient Boosting']
+accuracies = [svm_accuracy, nb_accuracy, rf_accuracy, gb_accuracy]
+plt.figure(figsize=(8, 6))
+plt.bar(models, accuracies, color=['#004c6d', '#2a9d8f', '#e76f51', '#f4a261'])
+plt.xlabel('Models')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of Classification Models Using TFIDF')
+plt.show()
+```
 
 ## State of the Tweet Analysis
 ### Description
